@@ -1,20 +1,21 @@
 import React from 'react';
+import { ButtonDelete, Lilist, Ullist } from './ContactsList.styled';
 
 export const ContactList = ({ contacts, onDeleteContact }) => {
   return (
-    <ul>
+    <Ullist>
       {contacts.map(({ id, name, number }) => {
         return (
-          <li key={id}>
+          <Lilist key={id}>
             <span>{name}</span>
             <span>{number}</span>
-            <button type="button" onClick={() => onDeleteContact(id)}>
+            <ButtonDelete type="button" onClick={() => onDeleteContact(id)}>
               Delete
-            </button>
-          </li>
+            </ButtonDelete>
+          </Lilist>
         );
       })}
-    </ul>
+    </Ullist>
   );
 };
 
