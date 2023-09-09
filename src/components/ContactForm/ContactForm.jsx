@@ -11,12 +11,11 @@ export class CreateContact extends Component {
 
   handleChange = ({ target: { value, name } }) => {
     this.setState({ [name]: value });
-    console.log('first', value);
   };
 
   handleSubmit = e => {
     e.preventDefault();
-    if (!this.state.value) this.props.onAddContact(this.state);
+    this.props.onSubmit(this.state);
     this.setState(INITIAL_STATE);
   };
 

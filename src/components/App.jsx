@@ -1,8 +1,8 @@
 import { Component } from 'react';
 import { nanoid } from 'nanoid';
-import CreateContact from './ContactForm/ContactForm';
-import ContactList from './ContactsList/ContactsList';
-import Filter from './Filter/Filter';
+import {CreateContact} from './ContactForm/ContactForm';
+import { ContactList } from './ContactsList/ContactsList';
+import {Filter} from './Filter/Filter';
 
 export class App extends Component {
   state = {
@@ -13,11 +13,6 @@ export class App extends Component {
       { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
     ],
     filter: '',
-  };
-
-  handleFilterChange = e => {
-    const { value } = e.target;
-    this.setState({ filter: value });
   };
 
   handleAddContact = newContact => {
@@ -39,38 +34,35 @@ export class App extends Component {
       contacts: [...prevState.contacts, contactToAdd],
     }));
   };
+  isNameNew = (contacts, newObj) => {
+    return contacts.find(
+      ({ name }) => name.toLowerCase() === newObj.name.toLowerCase()
+    );
+  };
 
   handleDeleteContact = contactId => {
     this.setState(prevState => ({
       contacts: prevState.contacts.filter(contact => contact.id !== contactId),
     }));
   };
-  
+
+  onChangeFilter = ({ target: { value } }) => {
+    this.setState({ filter: value });
+  };
 
   render() {
-    const { filter } = this.state;
+    const { contacts, filter } = this.state;
+    const filterContacts = contacts.filter(contact =>
+      contact.name.toLowerCase().includes(filter.toLowerCase())
+    );
     return (
       <>
-        <CreateContact onAddContact={this.handleAddContact} />
-
-        <ul>
-          {this.state.contacts
-            .filter(contact =>
-              contact.name
-                .toLowerCase()
-                .includes(this.state.filter.toLowerCase())
-            )
-            .map(contact => {
-              return (
-                <ContactList
-                  contact={contact}
-                  key={contact.id}
-                  onDeleteContact={this.handleDeleteContact}
-                />
-              );
-            })}
-        </ul>
-        <Filter value={filter} onChange={this.handleFilterChange} />
+        <CreateContact onSubmit={this.handleAddContact} />
+        <Filter value={filter} onChangeFilter={this.onChangeFilter} />
+        <ContactList
+          contacts={filterContacts}
+          onDeleteContact={this.handleDeleteContact}
+        />
       </>
     );
   }
