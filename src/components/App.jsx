@@ -34,11 +34,7 @@ export class App extends Component {
       contacts: [...prevState.contacts, contactToAdd],
     }));
   };
-  isNameNew = (contacts, newObj) => {
-    return contacts.find(
-      ({ name }) => name.toLowerCase() === newObj.name.toLowerCase()
-    );
-  };
+  
 
   handleDeleteContact = contactId => {
     this.setState(prevState => ({
